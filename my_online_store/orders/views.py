@@ -74,20 +74,36 @@ class BasketView(APIView):
         user = request.user
         basket, created = Basket.objects.get_or_create(user=user)
 
-        product_shorts = []
+        basket_data = []
+
+        total_price = 0  # Инициализируем общую стоимость корзины
 
         for order_item in basket.products.all():
-            count = order_item.count
-            price = order_item.total_price
-            product_shorts.append({'count': count, 'price': price})
-        serializer = ProductShortSerializer(product_shorts, many=True)
-        products = basket.products.all()
-        product_serializer = ProductSerializer(products, many=True)
+            product_data = {
+                'id': order_item.product.id,
+                'title': order_item.product.title,
+                'price': order_item.product.price,
+                'images': [
+                    {
+                        'src': image.src,
+                        'alt': image.alt,
+                    }
+                    for image in order_item.product.images.all()
+                ],
+                'count': order_item.count,
+                'total_price': order_item.total_price,
+            }
+            basket_data.append(product_data)
+
+            total_price += order_item.total_price  # Д
+
         response_data = {
-            'product_shorts': serializer.data,
-            'products': product_serializer.data,
+            'basket': basket_data,
+            'basketCount': {
+                'price': total_price,
+            },
         }
-        return Response(response_data, status=status.HTTP_200_OK)
+        return Response({'basket': response_data}, status=status.HTTP_200_OK)
 
     def post(self, request):
         user = request.user
