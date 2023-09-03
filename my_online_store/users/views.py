@@ -5,6 +5,7 @@ from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from .serializers import UserSerializer
+from rest_framework.permissions import IsAuthenticated
 
 User = get_user_model()
 
@@ -48,6 +49,8 @@ class SignOutView(APIView):
 
 
 class UserProfileView(APIView):
+    permission_classes = [IsAuthenticated]
+
     def get(self, request):
         user = request.user
         serializer = UserSerializer(user)
@@ -55,7 +58,8 @@ class UserProfileView(APIView):
 
     def post(self, request):
         user = request.user
-        serializer = UserSerializer(user, data=request.data, partial=True)
+        user_data = json.loads(request.body)
+        serializer = UserSerializer(user, data=user_data, partial=True)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_200_OK)
@@ -65,14 +69,14 @@ class UserProfileView(APIView):
 class UserPasswordUpdateView(APIView):
     def post(self, request):
         user = request.user
-        password = request.data.get('password')
-        print(password, request.data)
+        password = json.loads(request.body).get('password')
         if password:
             user.set_password(password)
             user.save()
             return Response({'message': 'Password updated successfully'}, status=status.HTTP_200_OK)
 
         return Response({'message': 'Password field is required'}, status=status.HTTP_400_BAD_REQUEST)
+
 
 class UserAvatarUpdateView(APIView):
     def post(self, request):

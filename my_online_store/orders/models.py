@@ -27,7 +27,7 @@ class Order(models.Model):
     products = models.ManyToManyField('OrderItem')
 
     def __str__(self):
-        return f"Заказ №{self.id} от {self.created_at}"
+        return f"Заказ №{self.id} от {self.user.username}"
 
     def get_total_price(self):
         total_price = self.products.aggregate(total_price=Sum('total_price'))['total_price']
@@ -58,6 +58,8 @@ class OrderItem(models.Model):
 
     def save(self, *args, **kwargs):
         self.total_price = Decimal(self.count * self.product.price)
+        self.product.count = self.count
+        self.product.price = self.total_price
         super().save(*args, **kwargs)
 
     def __str__(self):

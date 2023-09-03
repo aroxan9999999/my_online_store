@@ -1,9 +1,10 @@
+import json
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
 from .models import Order, Basket, OrderItem
-from .serializers import OrderSerializer, PaymentSerializer, BasketSerializer, OrderItemSerializer, \
-    ProductShortSerializer
+from .serializers import PaymentSerializer, BasketSerializer, OrderItemSerializer, \
+    ProductShortSerializer, BasketSerializer, OrderSerializer
 from products.models import Product
 from products.serializers import ProductSerializer
 
@@ -23,26 +24,12 @@ class OrderView(APIView):
         basket = Basket.objects.filter(user=user).first()
         if not basket:
             return Response({'message': 'Basket is empty'}, status=status.HTTP_400_BAD_REQUEST)
-        data = request.data
-        order = Order.objects.create(
-            user=request.user,
-            full_name=data['full_name'],
-            email=data['email'],
-            phone=data['phone'],
-            delivery_type=data['delivery_type'],
-            payment_type=data['payment_type'],
-            total_cost=data['total_cost'],
-            status=data['status'],
-            city=data['city'],
-            address=data['address']
-        )
-        for basket_item in basket.products.all():
-            order.products.add(basket_item.product, quantity=basket_item.count)
 
-        # Clear the basket
+        print(request.data)
+
         basket.products.clear()
-
-        return Response({'orderId': order.id}, status=status.HTTP_201_CREATED)
+        serializer = OrderSerializer(order)
+        return Response({'orderId': order.id, 'order': serializer.data}, status=status.HTTP_201_CREATED)
 
 
 class OrderDetailView(APIView):
@@ -70,53 +57,28 @@ class OrderDetailView(APIView):
 
 
 class BasketView(APIView):
+
     def get(self, request):
         user = request.user
         basket, created = Basket.objects.get_or_create(user=user)
+        total_price = sum(order_item.total_price for order_item in basket.products.all())
+        basket_data = [p.product for p in basket.products.all()]
+        serializer_data = ProductSerializer(basket_data, many=True)
 
-        basket_data = []
-
-        total_price = 0  # Инициализируем общую стоимость корзины
-
-        for order_item in basket.products.all():
-            product_data = {
-                'id': order_item.product.id,
-                'title': order_item.product.title,
-                'price': order_item.product.price,
-                'images': [
-                    {
-                        'src': image.src,
-                        'alt': image.alt,
-                    }
-                    for image in order_item.product.images.all()
-                ],
-                'count': order_item.count,
-                'total_price': order_item.total_price,
-            }
-            basket_data.append(product_data)
-
-            total_price += order_item.total_price  # Д
-
-        response_data = {
-            'basket': basket_data,
-            'basketCount': {
-                'price': total_price,
-            },
-        }
-        return Response(response_data, status=status.HTTP_200_OK)
+        return Response(serializer_data.data, status=status.HTTP_200_OK)
 
     def post(self, request):
         user = request.user
         basket, created = Basket.objects.get_or_create(user=user)
-
-        product_id = request.data.get('id')
-        quantity = request.data.get('count', 1)
+        request_data = request.data
+        product_id = request_data.get('id')
+        quantity = request_data.get('count', 1)
         print(request.data)
         product = Product.objects.get(id=product_id)
         basket_item = OrderItem.objects.create(product=product, count=quantity)
         basket.products.add(basket_item)
         basket.save()
-        serializer = BasketSerializer(basket)
+        serializer = ProductSerializer(product)
         print(serializer.data)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
@@ -134,7 +96,7 @@ class BasketView(APIView):
             basket_item.save()
             basket.save()
 
-        serializer = BasketSerializer(basket)
+        serializer = ProductSerializer(basket_item)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
 

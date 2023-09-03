@@ -5,8 +5,8 @@ User = get_user_model()
 
 
 class Product(models.Model):
-    category = models.ForeignKey('Category', on_delete=models.CASCADE)
     title = models.CharField(max_length=255)
+    category = models.ForeignKey('Category', on_delete=models.CASCADE)
     price = models.DecimalField(max_digits=10, decimal_places=2)
     count = models.PositiveIntegerField(default=1)
     date = models.DateTimeField(auto_now_add=True)
@@ -29,6 +29,8 @@ class Product(models.Model):
 class Category(models.Model):
     title = models.CharField(max_length=255)
     description = models.TextField(blank=True)
+    image = models.ImageField(upload_to='categories/')
+    subcategories = models.ManyToManyField('Subcategory', blank=True)
 
     def __str__(self):
         return self.title
@@ -36,7 +38,7 @@ class Category(models.Model):
 
 class Subcategory(models.Model):
     title = models.CharField(max_length=255)
-    category = models.ForeignKey(Category, on_delete=models.CASCADE, related_name='subcategories')
+    image = models.ImageField(upload_to='subcategories/')
 
     def __str__(self):
         return self.title
@@ -66,6 +68,7 @@ class Banner(models.Model):
     image = models.ImageField(upload_to='banners/')
     text = models.CharField(max_length=255)
     link = models.URLField()
+    products = models.ManyToManyField(Product)
 
     def __str__(self):
         return self.text
@@ -76,17 +79,13 @@ class Review(models.Model):
     email = models.EmailField()
     text = models.TextField()
     rate = models.PositiveSmallIntegerField()
-    date = models.DateTimeField()
+    date = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
         return f"Review by {self.author} on {self.date}"
 
     def __str__(self):
         return f"{self.author}'s basket"
-
-
-class Images(models.Model):
-    imageUrl = models.ImageField(upload_to='images/')
 
 
 class Tag(models.Model):
@@ -97,8 +96,8 @@ class Tag(models.Model):
 
 
 class Image(models.Model):
-    src = models.CharField(max_length=255)
+    src = models.ImageField(upload_to='images/')
     alt = models.CharField(max_length=255)
 
     def __str__(self):
-        return self.src
+        return self.src.url

@@ -2,15 +2,20 @@ from rest_framework import serializers
 from .models import Order, OrderItem, Basket
 from products.serializers import ProductSerializer
 
+from products.models import Product
+from products.serializers import ImageSerializer
+
 
 class OrderItemSerializer(serializers.ModelSerializer):
+    product = ProductSerializer()
+
     class Meta:
         model = OrderItem
-        fields = ('product', 'count')
+        fields = '__all__'
 
 
 class OrderSerializer(serializers.ModelSerializer):
-    products = OrderItemSerializer(many=True, read_only=True)
+    products = ProductSerializer(many=True)
 
     class Meta:
         model = Order
@@ -41,9 +46,11 @@ class PaymentSerializer(serializers.Serializer):
 
 
 class BasketSerializer(serializers.ModelSerializer):
+    images = ImageSerializer(many=True)
+
     class Meta:
-        model = Basket
-        fields = '__all__'
+        model = Product
+        fields = ['']
 
 
 class ProductShortSerializer(serializers.Serializer):

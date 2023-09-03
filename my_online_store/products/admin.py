@@ -8,7 +8,7 @@ class ImageAdmin(admin.ModelAdmin):
 
     def display_image(self, obj):
         if obj.src:
-            return format_html('<img src="{}" width="50" height="50" />', obj.src)
+            return format_html('<img src="{}" width="50" height="50" />', obj.src.url)
         return 'No image'
 
     display_image.short_description = 'Image'
@@ -22,8 +22,7 @@ class ProductAdmin(admin.ModelAdmin):
     def display_image(self, obj):
         image = obj.images.first()
         if image:
-            if image.src:
-                return format_html('<img src="{}" width="50" height="50" />', image.src)
+            return format_html('<img src="{}" width="50" height="50" />', image.src.url)
         return 'No image'
 
     display_image.short_description = 'Image'
@@ -60,7 +59,7 @@ class ImageInline(admin.TabularInline):
 
     def display_image(self, obj):
         if obj.image:
-            return format_html('<img src="{}" width="50" height="50" />', obj.image.src)
+            return format_html('<img src="{}" width="50" height="50" />', obj.image.src.url)
         return 'No image'
 
     display_image.short_description = 'Image'

@@ -1,6 +1,8 @@
+import json
+
 from django.db.models import F
 
-from .models import Category, Banner, Tag, SaleItem
+from .models import Category, Banner, Tag, SaleItem, Review
 from .serializers import CategorySerializer, ProductSerializer, BannerSerializer, ReviewSerializer, SaleItemSerializer, \
     TagSerializer
 from rest_framework.views import APIView
@@ -41,7 +43,6 @@ class CatalogView(APIView):
         for key, value in filter_mapping.items():
             if value in filter_params:
                 filter_args[key] = filter_params[value]
-        print(filter_args)
         sort_key = sort_by if sort_type == 'dec' else '-' + sort_by
         products = Product.objects.filter(**filter_args).order_by(sort_key)
         total_products = products.count()
@@ -112,11 +113,7 @@ class BannerViewSet(APIView):
 class ProductDetailView(APIView):
 
     def get(self, request, pk):
-        try:
-            product = Product.objects.get(pk=pk)
-        except Product.DoesNotExist:
-            return Response({'message': 'Product not found'}, status=status.HTTP_404_NOT_FOUND)
-
+        product = Product.objects.get(pk=pk)
         serializer = ProductSerializer(product)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
@@ -124,13 +121,13 @@ class ProductDetailView(APIView):
 class ProductReviewView(APIView):
 
     def post(self, request, pk):
-        try:
-            product = Product.objects.get(pk=pk)
-        except Product.DoesNotExist:
-            return Response({'message': 'Product not found'}, status=status.HTTP_404_NOT_FOUND)
-
-        serializer = ReviewSerializer(data=request.data)
+        data = json.loads(request.data)
+        product = Product.objects.get(pk=pk)
+        serializer = ReviewSerializer(data=data)
         if serializer.is_valid():
+            review = Review.objects.create(serializer.data)
+            product.reviews.add(review)
+            product.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
@@ -139,7 +136,6 @@ class TagListView(APIView):
     def get(self, request):
         category_id = request.query_params.get('category', None)
 
-        # Если указан параметр "category", фильтруем теги по категории
         if category_id is not None:
             tags = Tag.objects.filter(id=category_id)
         else:
