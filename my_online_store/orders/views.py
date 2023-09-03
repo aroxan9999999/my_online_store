@@ -103,7 +103,7 @@ class BasketView(APIView):
                 'price': total_price,
             },
         }
-        return Response({'basket': response_data}, status=status.HTTP_200_OK)
+        return Response(response_data, status=status.HTTP_200_OK)
 
     def post(self, request):
         user = request.user
