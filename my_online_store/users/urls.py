@@ -7,5 +7,5 @@ urlpatterns = [
     path('sign-out/', views.SignOutView.as_view()),
     path('profile/', views.UserProfileView.as_view()),
     path('profile/password/', views.UserPasswordUpdateView.as_view()),
-    path('profile/avatar/', views.UserAvatarUpdateView.as_view()),
+    path('profile/avatar/', views.AvatarUploadView.as_view()),
 ]

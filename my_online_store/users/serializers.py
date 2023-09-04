@@ -11,15 +11,16 @@ class AvatarSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Avatar
-        fields = ["src", "alt"]
+        fields = ['src', 'ait']
+
 
     def get_src(self, obj):
         return obj.src.url
 
 
 class UserSerializer(serializers.ModelSerializer):
-    avatar = AvatarSerializer()
+    avatar = AvatarSerializer(required=False)
 
     class Meta:
         model = User
-        fields = ['id', 'username', 'email', 'phone', 'avatar']
+        fields = ['id', 'username', 'email', 'phone', 'avatar', 'fullName']

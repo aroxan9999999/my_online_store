@@ -15,3 +15,4 @@ class User(AbstractUser):
 class Avatar(models.Model):
     src = models.ImageField(upload_to='avatar/', null=True, blank=True)
     ait = models.CharField(max_length=255)
+

@@ -7,11 +7,11 @@ from products.serializers import ImageSerializer
 
 
 class OrderItemSerializer(serializers.ModelSerializer):
-    product = ProductSerializer()
+    product = serializers.JSONField()
 
     class Meta:
         model = OrderItem
-        fields = '__all__'
+        fields = ['product', 'total_price']
 
 
 class OrderSerializer(serializers.ModelSerializer):

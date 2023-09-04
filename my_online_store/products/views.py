@@ -121,7 +121,7 @@ class ProductDetailView(APIView):
 class ProductReviewView(APIView):
 
     def post(self, request, pk):
-        data = json.loads(request.data)
+        data = request.data
         product = Product.objects.get(pk=pk)
         serializer = ReviewSerializer(data=data)
         if serializer.is_valid():

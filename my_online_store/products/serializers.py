@@ -5,18 +5,18 @@ from .models import Category, Product, Banner, Review, Tag, Subcategory, SaleIte
 class ImageSerializer(serializers.ModelSerializer):
     src = serializers.SerializerMethodField()
 
+    def get_src(self, obj):
+        return obj.src.url if obj.src else None
+
     class Meta:
         model = Image
-        fields = '__all__'
-
-    def get_src(self, obj):
-        return obj.src.url
+        fields = ['src', 'alt']
 
 
 class ReviewSerializer(serializers.ModelSerializer):
     class Meta:
         model = Review
-        fields = ['rating', 'comment', 'user', 'product', 'created_at']
+        fields = '__all__'
 
 
 class SubcategorySerializer(serializers.ModelSerializer):
@@ -28,12 +28,12 @@ class SubcategorySerializer(serializers.ModelSerializer):
 
 
 class CategorySerializer(serializers.ModelSerializer):
-    images = ImageSerializer(many=True)
+    image = ImageSerializer(many=True)
     subcategories = SubcategorySerializer(many=True)
 
     class Meta:
         model = Category
-        fields = ['id', 'title', 'description', 'images', 'subcategories']
+        fields = ['id', 'title', 'description', 'image', 'subcategories']
 
 
 class SaleItemSerializer(serializers.ModelSerializer):

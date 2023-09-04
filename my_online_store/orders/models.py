@@ -3,6 +3,7 @@ from django.db import models
 from django.contrib.auth import get_user_model
 from django.db.models import Sum
 from products.models import Product
+from copy import deepcopy
 
 User = get_user_model()
 
@@ -15,15 +16,15 @@ class Order(models.Model):
     )
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
-    full_name = models.CharField(max_length=255)
-    email = models.EmailField()
-    phone = models.CharField(max_length=20)
-    delivery_type = models.CharField(max_length=255)
-    payment_type = models.CharField(max_length=255)
-    total_cost = models.DecimalField(max_digits=10, decimal_places=2)
-    status = models.CharField(max_length=25, choices=STATUS_CHOICES, default='active')
-    city = models.CharField(max_length=255)
-    address = models.TextField()
+    full_name = models.CharField(max_length=255, blank=True)
+    email = models.EmailField(blank=True)
+    phone = models.CharField(max_length=20, blank=True)
+    delivery_type = models.CharField(max_length=255, blank=True, null=True)
+    payment_type = models.CharField(max_length=255, blank=True, null=True)
+    total_cost = models.DecimalField(max_digits=10, decimal_places=2, default=0.00)
+    status = models.CharField(max_length=25, choices=STATUS_CHOICES, default='active', blank=True)
+    city = models.CharField(max_length=255, blank=True)
+    address = models.TextField(blank=True)
     products = models.ManyToManyField('OrderItem')
 
     def __str__(self):
@@ -32,6 +33,11 @@ class Order(models.Model):
     def get_total_price(self):
         total_price = self.products.aggregate(total_price=Sum('total_price'))['total_price']
         return total_price or 0
+
+    def save(self, *args, **kwargs):
+        super().save(*args, **kwargs)  # Сначала сохраняем заказ
+        self.total_cost = self.get_total_price()  # Затем получаем и обновляем total_cost
+        return self.total_cost
 
 
 class Payment(models.Model):
@@ -57,9 +63,12 @@ class OrderItem(models.Model):
     total_price = models.DecimalField(max_digits=10, decimal_places=2)
 
     def save(self, *args, **kwargs):
+        product_copy = deepcopy(self.product)
         self.total_price = Decimal(self.count * self.product.price)
-        self.product.count = self.count
-        self.product.price = self.total_price
+        product_copy.count = self.count
+        product_copy.price = self.total_price
+        product_copy.save()
+        self.product = product_copy
         super().save(*args, **kwargs)
 
     def __str__(self):
