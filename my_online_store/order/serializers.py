@@ -1,17 +1,8 @@
 from rest_framework import serializers
-from .models import Order, OrderItem, Basket
+from .models import Order
 from products.serializers import ProductSerializer
-
 from products.models import Product
 from products.serializers import ImageSerializer
-
-
-class OrderItemSerializer(serializers.ModelSerializer):
-    product = serializers.JSONField()
-
-    class Meta:
-        model = OrderItem
-        fields = ['product', 'total_price']
 
 
 class OrderSerializer(serializers.ModelSerializer):
@@ -19,7 +10,20 @@ class OrderSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Order
-        fields = '__all__'
+        fields = (
+            'id',
+            'createdAt',
+            'fullName',
+            'email',
+            'phone',
+            'deliveryType',
+            'paymentType',
+            'totalCost',
+            'status',
+            'city',
+            'address',
+            'products',
+        )
 
 
 class CreateOrderSerializer(serializers.Serializer):
@@ -43,14 +47,6 @@ class PaymentSerializer(serializers.Serializer):
 
     def validate_cvv(self, value):
         return value
-
-
-class BasketSerializer(serializers.ModelSerializer):
-    images = ImageSerializer(many=True)
-
-    class Meta:
-        model = Product
-        fields = ['']
 
 
 class ProductShortSerializer(serializers.Serializer):

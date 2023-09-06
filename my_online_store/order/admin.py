@@ -1,16 +1,11 @@
 from django.contrib import admin
-from .models import Order, Payment, Basket, OrderItem
-
-
-class OrderItemInline(admin.TabularInline):
-    model = OrderItem
+from .models import Order, Payment
 
 
 class OrderAdmin(admin.ModelAdmin):
-    list_display = ['id', 'full_name', 'email', 'phone', 'status', 'created_at']
-    list_filter = ['status', 'created_at']
-    search_fields = ['full_name', 'email', 'phone']
-    inlines = [OrderItemInline, ]
+    list_display = ['id', 'fullName', 'email', 'phone', 'status', 'createdAt']
+    list_filter = ['status', 'createdAt']
+    search_fields = ['fullName', 'email', 'phone']
 
 
 class PaymentAdmin(admin.ModelAdmin):
@@ -25,4 +20,4 @@ class BasketAdmin(admin.ModelAdmin):
 
 admin.site.register(Order, OrderAdmin)
 admin.site.register(Payment, PaymentAdmin)
-admin.site.register(Basket, BasketAdmin)
+

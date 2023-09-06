@@ -72,8 +72,8 @@ class UserProfileView(APIView):
 
 class UserPasswordUpdateView(APIView):
     def post(self, request):
-        request_data = request.data
-        password = request_data.get('password')
+        password = request.data.get('password')
+        print(password)
         if password:
             user = request.user
             user.set_password(password)

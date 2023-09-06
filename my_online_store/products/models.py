@@ -25,6 +25,9 @@ class Product(models.Model):
     def __str__(self):
         return self.title
 
+    def get_total(self):
+        return self.count * self.price
+
 
 class Category(models.Model):
     title = models.CharField(max_length=255)
@@ -38,7 +41,7 @@ class Category(models.Model):
 
 class Subcategory(models.Model):
     title = models.CharField(max_length=255)
-    image = models.ImageField(upload_to='subcategories/')
+    image = models.ForeignKey('CategoryImage', on_delete=models.CASCADE)
 
     def __str__(self):
         return self.title
@@ -100,4 +103,8 @@ class Image(models.Model):
     alt = models.CharField(max_length=255)
 
     def __str__(self):
-        return self.src
+        return self.src.url
+
+
+class CategoryImage(Image):
+    pass

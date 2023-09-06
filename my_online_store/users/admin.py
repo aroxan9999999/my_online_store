@@ -25,7 +25,7 @@ class CustomUserAdmin(UserAdmin):
 
     def display_avatar(self, obj):
         if obj.avatar:
-            return format_html('<img src="{}" width="50" height="50" />', obj.avatar.url)
+            return format_html('<img src="{}" width="50" height="50" />', obj.avatar.src.url)
         return 'No image'
 
 

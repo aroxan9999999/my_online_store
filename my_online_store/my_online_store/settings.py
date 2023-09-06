@@ -39,7 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'frontend',
     'rest_framework',
-    'orders.apps.OrdersConfig',
+    'order.apps.OrderConfig',
     'users.apps.UsersConfig',
     'products.apps.ProductsConfig',
 ]

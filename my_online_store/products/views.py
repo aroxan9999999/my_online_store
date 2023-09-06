@@ -16,6 +16,10 @@ class CategoryView(APIView):
     def get(self, request):
         categories = Category.objects.all()
         serializer = CategorySerializer(categories, many=True)
+
+        for data, category in zip(serializer.data, categories):
+            data['image'] = {'src': category.image.url, 'ait': 'no image'}
+
         return Response(serializer.data, status=status.HTTP_200_OK)
 
 
@@ -128,6 +132,8 @@ class ProductReviewView(APIView):
             review = Review.objects.create(serializer.data)
             product.reviews.add(review)
             product.save()
+            reviews = product.reviews.all()
+            serializer_reviews = ReviewSerializer(review, many=True)
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
@@ -135,11 +141,9 @@ class ProductReviewView(APIView):
 class TagListView(APIView):
     def get(self, request):
         category_id = request.query_params.get('category', None)
+        if not category_id or category_id == 'NaN' or not category_id.isdigit():
+            return Response(status=status.HTTP_400_BAD_REQUEST)
 
-        if category_id is not None:
-            tags = Tag.objects.filter(id=category_id)
-        else:
-            tags = Tag.objects.all()
-
+        tags = Tag.objects.filter(id=int(category_id))
         serializer = TagSerializer(tags, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
