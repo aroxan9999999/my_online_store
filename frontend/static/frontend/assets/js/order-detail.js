@@ -2,7 +2,11 @@ var mix = {
 	methods: {
 		getOrder(orderId) {
 			if(typeof orderId !== 'number') return
+<<<<<<< HEAD
 			this.getData(`/api/order/${orderId}`)
+=======
+			this.getData(`/api/order/${orderId}/`)
+>>>>>>> 82db9917ac7303b4da9fe760dd8f324e84e0535a
 				.then(data => {
 					this.orderId = data.id
 					this.createdAt = data.createdAt
@@ -24,7 +28,11 @@ var mix = {
 		},
 		confirmOrder() {
 			if (this.orderId !== null) {
+<<<<<<< HEAD
 				this.postData(`/api/order/${this.orderId}`, { ...this })
+=======
+				this.postData(`/api/order/${this.orderId}/`, { ...this })
+>>>>>>> 82db9917ac7303b4da9fe760dd8f324e84e0535a
 					.then(({ data: { orderId } }) => {
 						alert('Заказ подтвержден')
 						location.replace(`/payment/${orderId}/`)
@@ -37,7 +45,11 @@ var mix = {
 		auth() {
 			const username = document.querySelector('#username').value
 			const password = document.querySelector('#password').value
+<<<<<<< HEAD
 			this.postData('/api/sign-in', JSON.stringify({ username, password }))
+=======
+			this.postData('/api/sign-in/', JSON.stringify({ username, password }))
+>>>>>>> 82db9917ac7303b4da9fe760dd8f324e84e0535a
 				.then(({ data, status }) => {
 					location.assign(`/orders/${this.orderId}`)
 				})

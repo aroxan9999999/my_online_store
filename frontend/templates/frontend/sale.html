@@ -23,7 +23,11 @@
 
           <!-- Получаем товар по скидке -->
           <div v-for="card in salesCards" class="Card">
+<<<<<<< HEAD
             <a :href="`/product/${card.id}/`"><div class="Card-picture" >
+=======
+            <a :href="`/product/${card.id}`"><div class="Card-picture" >
+>>>>>>> 82db9917ac7303b4da9fe760dd8f324e84e0535a
               <img :src="card.images[0].src" :alt="card.images[0].alt"/>
             </div>
               <div v-if="card.dateFrom" class="Card-date">
@@ -34,7 +38,11 @@
               </div>
               <div class="Card-content">
                 <strong class="Card-title">${ card.title }$</strong>
+<<<<<<< HEAD
                 <div class="Card-description"><s>${ card.price }$</s></div>
+=======
+                <div class="Card-description"><s><${ card.price }$</s></div>
+>>>>>>> 82db9917ac7303b4da9fe760dd8f324e84e0535a
                 <br>
                 <div class="Card-description">${ card.salePrice }$</div>
               </div>

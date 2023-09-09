@@ -4,6 +4,10 @@ from django.views.generic import TemplateView
 urlpatterns = [
     path('', TemplateView.as_view(template_name="frontend/index.html")),
     path('about/', TemplateView.as_view(template_name="frontend/about.html")),
+<<<<<<< HEAD
+=======
+    path('account/', TemplateView.as_view(template_name="frontend/account.html")),
+>>>>>>> 82db9917ac7303b4da9fe760dd8f324e84e0535a
     path('cart/', TemplateView.as_view(template_name="frontend/cart.html")),
     path('catalog/', TemplateView.as_view(template_name="frontend/catalog.html")),
     path('catalog/<int:id>/', TemplateView.as_view(template_name="frontend/catalog.html")),

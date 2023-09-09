@@ -1,5 +1,6 @@
 import json
 from django.contrib.auth import authenticate, logout, login, update_session_auth_hash
+from django.contrib.auth import authenticate, logout, login
 from django.contrib.auth import get_user_model
 from rest_framework import status
 from rest_framework.response import Response
@@ -86,6 +87,7 @@ class UserPasswordUpdateView(APIView):
         else:
             return Response({'error': 'Both currentPassword and newPassword fields are required'},
                             status=status.HTTP_400_BAD_REQUEST)
+
 
 
 class AvatarUploadView(APIView):

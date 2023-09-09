@@ -772,7 +772,10 @@
   display: flex;
   align-items: center;
   justify-content: center;
+<<<<<<< HEAD
   white-space: nowrap;
+=======
+>>>>>>> 82db9917ac7303b4da9fe760dd8f324e84e0535a
   background: #0063d1;
   color: #fff;
   font-size: 22px;

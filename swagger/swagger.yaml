@@ -32,8 +32,11 @@ paths:
       responses:
         '200':
           description: successful operation
+<<<<<<< HEAD
         '500':
           description: unsuccessful operation
+=======
+>>>>>>> 82db9917ac7303b4da9fe760dd8f324e84e0535a
 
 
   /sign-up:
@@ -63,8 +66,11 @@ paths:
       responses:
         '200':
           description: successful operation
+<<<<<<< HEAD
         '500':
           description: unsuccessful operation
+=======
+>>>>>>> 82db9917ac7303b4da9fe760dd8f324e84e0535a
 
   /sign-out:
     post:
@@ -498,12 +504,18 @@ paths:
               xml:
                 name: password
               properties:
+<<<<<<< HEAD
                 currentPassword:
                   type: string
                   example: 'oldPass123'
                 newPassword:
                   type: string
                   example: 'newPass321'
+=======
+                password:
+                  type: string
+                  example: 'QWEWETEW12312'
+>>>>>>> 82db9917ac7303b4da9fe760dd8f324e84e0535a
       responses:
         '200':
           description: successful operation
@@ -512,10 +524,21 @@ paths:
     post:
       tags:
         - profile
+<<<<<<< HEAD
       description: 'update user avatar (request.FILES["avatar"] in Django)'
       responses:
         '200':
           description: successful operation
+=======
+      description: 'update user avatar'
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Image'
+>>>>>>> 82db9917ac7303b4da9fe760dd8f324e84e0535a
 
   /tags:
     get:
@@ -663,10 +686,17 @@ components:
           example: 200.67
         dateFrom:
           type: string
+<<<<<<< HEAD
           example: '05-08'
         dateTo:
           type: string
           example: '05-20'
+=======
+          example: '2023-05-08'
+        dateTo:
+          type: string
+          example: '2023-05-20'
+>>>>>>> 82db9917ac7303b4da9fe760dd8f324e84e0535a
         title:
           type: string
           example: 'video card'
@@ -675,7 +705,13 @@ components:
           xml:
             wrapped: true
           items:
+<<<<<<< HEAD
             $ref: '#/components/schemas/Image'
+=======
+            type: string
+            xml:
+              name: imageUrl
+>>>>>>> 82db9917ac7303b4da9fe760dd8f324e84e0535a
     ProductFull:
       required:
         - id
@@ -719,7 +755,13 @@ components:
           xml:
             wrapped: true
           items:
+<<<<<<< HEAD
             $ref: '#/components/schemas/Image'
+=======
+            type: string
+            xml:
+              name: imageUrl
+>>>>>>> 82db9917ac7303b4da9fe760dd8f324e84e0535a
         tags:
           type: array
           xml:

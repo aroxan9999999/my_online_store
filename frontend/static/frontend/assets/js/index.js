@@ -10,7 +10,11 @@ var mix = {
 			})
 		},
 		getPopularProducts() {
+<<<<<<< HEAD
 			this.getData("/api/products/popular")
+=======
+			this.getData("/api/products/popular/")
+>>>>>>> 82db9917ac7303b4da9fe760dd8f324e84e0535a
 				.then(data => {
 					this.popularCards = data
 				})
@@ -21,7 +25,11 @@ var mix = {
 				})
 		},
 		getLimitedProducts() {
+<<<<<<< HEAD
 			this.getData("/api/products/limited")
+=======
+			this.getData("/api/products/limited/")
+>>>>>>> 82db9917ac7303b4da9fe760dd8f324e84e0535a
 				.then(data => {
 					this.limitedCards = data
 				}).catch(() => {

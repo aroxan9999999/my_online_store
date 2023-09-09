@@ -81,12 +81,19 @@ REST_FRAMEWORK = {
 }
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
+<<<<<<< HEAD
 DATABASE_DIR = BASE_DIR / 'database'
+=======
+>>>>>>> 82db9917ac7303b4da9fe760dd8f324e84e0535a
 
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
+<<<<<<< HEAD
         'NAME': DATABASE_DIR / 'db.sqlite3',
+=======
+        'NAME': BASE_DIR / 'db.sqlite3',
+>>>>>>> 82db9917ac7303b4da9fe760dd8f324e84e0535a
     }
 }
 

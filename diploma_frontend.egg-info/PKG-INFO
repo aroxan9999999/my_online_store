@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 Metadata-Version: 1.1
 Name: diploma-frontend
 Version: 0.6
@@ -8,6 +9,14 @@ Author-email: UNKNOWN
 License: BSD-3-Clause  # Example license
 Description: UNKNOWN
 Platform: UNKNOWN
+=======
+Metadata-Version: 2.1
+Name: diploma-frontend
+Version: 0.6
+Summary: Frontend for diploma project
+Author: Skillbox
+License: BSD-3-Clause  # Example license
+>>>>>>> 82db9917ac7303b4da9fe760dd8f324e84e0535a
 Classifier: Environment :: Web Environment
 Classifier: Framework :: Django
 Classifier: Framework :: Django :: 3.2

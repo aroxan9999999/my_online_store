@@ -14,7 +14,11 @@ var mix = {
             const productId = location.pathname.startsWith('/product/')
             ? Number(location.pathname.replace('/product/', '').replace('/', ''))
             : null
+<<<<<<< HEAD
             this.getData(`/api/product/${productId}`).then(data => {
+=======
+            this.getData(`/api/product/${productId}/`).then(data => {
+>>>>>>> 82db9917ac7303b4da9fe760dd8f324e84e0535a
                 this.product = {
                     ...this.product,
                     ...data
@@ -27,7 +31,11 @@ var mix = {
             })
         },
         submitReview () {
+<<<<<<< HEAD
             this.postData(`/api/product/${this.product.id}/reviews`, {
+=======
+            this.postData(`/api/product/${this.product.id}/reviews/`, {
+>>>>>>> 82db9917ac7303b4da9fe760dd8f324e84e0535a
                 author: this.review.author,
                 email: this.review.email,
                 text: this.review.text,

@@ -24,11 +24,19 @@
           <!-- Данные по товару в корзине -->
           <div v-for="product in Object.values(basket)" class="Cart-product">
             <div class="Cart-block Cart-block_row">
+<<<<<<< HEAD
               <div class="Cart-block Cart-block_pict"><a class="Cart-pict" :href="`/product/${product.id}/`">
                 <img class="Cart-img" :src="product.images[0].src" :alt="product.images[0].alt"/></a>
               </div>
               <div class="Cart-block Cart-block_info">
                 <a class="Cart-title" :href="`/product/${product.id}/`">${ product.title }$</a>
+=======
+              <div class="Cart-block Cart-block_pict"><a class="Cart-pict" :href="`/product/${product.id}`">
+                <img class="Cart-img" :src="product.images[0].src" :alt="product.images[0].alt"/></a>
+              </div>
+              <div class="Cart-block Cart-block_info">
+                <a class="Cart-title" :href="`/product/${product.id}`">${ product.title }$</a>
+>>>>>>> 82db9917ac7303b4da9fe760dd8f324e84e0535a
 <!--                <div class="Cart-desc">${ product.shortDescription }$</div>-->
               </div>
               <div class="Cart-block Cart-block_price">
@@ -76,4 +84,8 @@
 
 {% block mixins %}
 <script src="{% static 'frontend/assets/js/cart.js' %}"></script>
+<<<<<<< HEAD
 {% endblock %}
+=======
+{% endblock %}
+>>>>>>> 82db9917ac7303b4da9fe760dd8f324e84e0535a

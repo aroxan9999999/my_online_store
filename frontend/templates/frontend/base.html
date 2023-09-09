@@ -117,7 +117,11 @@
 
               <!-- Получаем категории и подкатегории  -->
               <div class="CategoriesButton-link" v-for="category in categories">
+<<<<<<< HEAD
                 <a :href="`/catalog/${category.id}/`">
+=======
+                <a :href="`/catalog/${category.id}`">
+>>>>>>> 82db9917ac7303b4da9fe760dd8f324e84e0535a
                   <div class="CategoriesButton-icon"><img :src="category.image.src" :alt="category.image.alt"/>
                   </div><span class="CategoriesButton-text">${ category.title }$</span>
                 </a>
@@ -125,7 +129,11 @@
 
                 <div v-if="category.subcategories.length > 0" class="CategoriesButton-submenu">
                   <div v-for="subcategory in category.subcategories">
+<<<<<<< HEAD
                     <a class="CategoriesButton-link" :href="`/catalog/${subcategory.id}/`">
+=======
+                    <a class="CategoriesButton-link" :href="`/catalog/${category.id}`">
+>>>>>>> 82db9917ac7303b4da9fe760dd8f324e84e0535a
                     <div class="CategoriesButton-icon">
                       <img :src="subcategory.image.src" :alt="subcategory.image.alt"/>
                     </div>
